@@ -34,3 +34,29 @@ namespace :assets do
     end
   end
 end
+
+namespace :css do
+  desc "Build your CSS bundle"
+  task :build do
+    unless system "yarn install && yarn build:css"
+      raise "Command css:build failed, ensure yarn is installed and `yarn build:css` runs without errors or use SKIP_CSS_BUILD env variable"
+    end
+  end
+end
+
+unless ENV["SKIP_CSS_BUILD"]
+  Rake::Task["assets:precompile"].enhance(["css:build"])
+end
+
+namespace :js do
+  desc "Build your JS bundle"
+  task :build do
+    unless system "yarn install && yarn build"
+      raise "Command build failed, ensure yarn is installed and `yarn build` runs without errors or use SKIP_JS_BUILD env variable"
+    end
+  end
+end
+
+unless ENV["SKIP_JS_BUILD"]
+  Rake::Task["assets:precompile"].enhance(["js:build"])
+end

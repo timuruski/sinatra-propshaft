@@ -1,6 +1,9 @@
 require "propshaft"
+
+# Propshaft requires some ActiveSupport stuff.
 require "active_support/ordered_options"
 require "active_support/core_ext/string"
+require "active_support/core_ext/integer"
 
 # Configuration ripped from the propshaft railtie
 module Assets
@@ -20,13 +23,15 @@ module Assets
       config.assets.sweep_cache = ENV["APP_ENV"] == "development"
       config.assets.server = ENV["APP_ENV"] == "development" || ENV["APP_ENV"] == "test"
       config.assets.relative_url_root = nil
-
-      # After initialize
-      # config.assets.relative_url_root ||= app.config.relative_url_root
-      # config.assets.output_path ||=
-      #   Pathname.new(File.join(app.config.paths["public"].first, app.config.assets.prefix))
     }
 
     app.set :assets, Propshaft::Assembly.new(app.config.assets)
+    app.helpers Assets::Helper
+  end
+
+  module Helper
+    def compute_asset_path(path, options = {})
+      settings.assets.resolver.resolve(path) || raise(Propshaft::MissingAssetError.new(path))
+    end
   end
 end

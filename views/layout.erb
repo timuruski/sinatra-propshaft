@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Hello, world!</title>
+    <link rel="stylesheet" href="<%= compute_asset_path("builds/application.css") %>" />
+    <script src="<%= compute_asset_path("builds/application.js") %>"></script>
+  </head>
+  <body>
+    <div class="container">
+      <%= yield %>
+    </div>
+  </body>
+</html>

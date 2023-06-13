@@ -6,6 +6,6 @@ gem "activesupport"
 gem "foreman"
 gem "propshaft"
 gem "rake"
+gem "rerun", require: false
 gem "sinatra"
-gem "sprockets", require: false
 gem "webrick"
